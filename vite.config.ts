@@ -23,6 +23,10 @@ const manifest = defineManifest({
   },
   background: { service_worker: "src/background/index.ts" },
   content_scripts: [
+    {
+      matches: ["<all_urls>"],
+      js: ["src/contentScript/index.tsx"],
+    },
   ],
   commands: {
     _execute_action: {
