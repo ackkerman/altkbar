@@ -12,6 +12,7 @@ import {
 import { commonValue, targetUrls } from "../CommonValue";
 import React, { useEffect, useState } from 'react';
 import { Bookmarks } from './pages/Bookmarks';
+import { CommandPalette } from './components/CommandPalette';
 import AppIcon from '/public/icon/icon.svg';
 import { useRef } from 'react';
 
@@ -19,6 +20,7 @@ export const App: React.FC = () => {
   const [isAltPressed, setIsAltPressed] = useState(false);
   const [inputRef, setInputRef] = useState<any>(null);
   const linkRefs:any = useRef([]);
+  const [paletteOpened, setPaletteOpened] = useState(false);
 
   // キー入力の待ち受け
   useEffect(() => {
@@ -41,6 +43,12 @@ export const App: React.FC = () => {
         }
         console.log(linkRefs);
         console.log('Alt + j');
+      } else if (e.key === 'k' && isAltPressed) {
+        // Alt + k
+        setPaletteOpened(true);
+        e.preventDefault();
+      } else if (e.key === 'Escape') {
+        setPaletteOpened(false);
       }
       // テキスト入力エリアである場合、イベントを無視する
       if (e.target?.tagName === 'INPUT' || e.target?.tagName === 'TEXTAREA') {
@@ -67,6 +75,7 @@ export const App: React.FC = () => {
 
   return (
     <MantineProvider withGlobalStyles={false} withNormalizeCSS={true}>
+      <CommandPalette opened={paletteOpened} onClose={() => setPaletteOpened(false)} />
       <Container size={600}>
         <header>
           <Group>
